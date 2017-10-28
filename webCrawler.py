@@ -41,10 +41,9 @@ def spider(url, word, maxPages):
             title = '----------------------------------\n' + 'SEARCH FOR ' + word + "\n"
         else:
             title = ""
+
         numberVisited = numberVisited + 1
         url = pagesToVisit[0]
-        with open('urls.txt', 'a', encoding='utf-8') as file:
-            file.write(title + str(numberVisited) + '. URL: ' + url + "\nWord: " + word + "\n")
         pagesToVisit = pagesToVisit[1:]
         try:
             print(numberVisited, "Visiting: ", url)
@@ -52,10 +51,15 @@ def spider(url, word, maxPages):
             data, links = parser.getLinks(url)
             if data.find(word)>-1:
                 foundWord = True
+
             pagesToVisit = pagesToVisit + links
             print("Success!")
+            with open('urls.txt', 'a', encoding='utf-8') as file:
+                file.write(title + str(numberVisited) + '. Successfully Visited: ' + url + " Word: " + word + "\n")
         except:
             print("Fail")
+            with open('urls.txt', 'a', encoding='utf-8') as file:
+                file.write(title + str(numberVisited) + '. Failed To Visit: ' + url + " Word: " + word + "\n")
     if foundWord:
         print("The word", word, "was found at", url)
         with open('urls.txt', 'a', encoding='utf-8') as file:
