@@ -11,6 +11,8 @@ class LinkParser(HTMLParser):
                     newUrl = parse.urljoin(self.baseUrl, value)
                     self.links = self.links + [newUrl]
     def getLinks(self, url):
+        with open('urls.txt', 'a', encoding='utf-8') as file:
+            file.write(url + "\n")
         self.links = []
         self.baseUrl = url
         response = urlopen(url)
@@ -21,6 +23,16 @@ class LinkParser(HTMLParser):
             return htmlString, self.links
         else:
             return "", []
+
+def start():
+    print("Please enter the URL, Search Term, Max Pages(def:200):")
+    inUrl = input("URL: ")
+    inWord = input("Search Term: ")
+    inMaxPages = input("Max Pages: ")
+    if(inMaxPages == ""):
+        inMaxPages = '200'
+    input("Press enter to execute search:")
+    spider(inUrl, inWord, int(inMaxPages))
         
 def spider(url, word, maxPages):
     pagesToVisit = [url]
