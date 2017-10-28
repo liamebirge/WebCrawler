@@ -11,8 +11,6 @@ class LinkParser(HTMLParser):
                     newUrl = parse.urljoin(self.baseUrl, value)
                     self.links = self.links + [newUrl]
     def getLinks(self, url):
-        with open('urls.txt', 'a', encoding='utf-8') as file:
-            file.write(url + "\n")
         self.links = []
         self.baseUrl = url
         response = urlopen(url)
@@ -39,8 +37,14 @@ def spider(url, word, maxPages):
     numberVisited = 0
     foundWord = False
     while numberVisited < maxPages and pagesToVisit != [] and not foundWord:
+        if (numberVisited == 0):
+            title = '----------------------------------\n' + 'SEARCH FOR ' + word + "\n"
+        else:
+            title = ""
         numberVisited = numberVisited + 1
         url = pagesToVisit[0]
+        with open('urls.txt', 'a', encoding='utf-8') as file:
+            file.write(title + str(numberVisited) + '. URL: ' + url + "\nWord: " + word + "\n")
         pagesToVisit = pagesToVisit[1:]
         try:
             print(numberVisited, "Visiting: ", url)
@@ -54,5 +58,7 @@ def spider(url, word, maxPages):
             print("Fail")
     if foundWord:
         print("The word", word, "was found at", url)
+        with open('urls.txt', 'a', encoding='utf-8') as file:
+            file.write("Total Sites Visited: " + str(numberVisited) + '\nURL Containing Search: ' + url + "\nSearch Term: " + word + "\n------------------------\n")
     else:
         print("The word was not found at specified url")
