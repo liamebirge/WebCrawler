@@ -63,6 +63,8 @@ def spider(url, word, maxPages):
     if foundWord:
         print("The word", word, "was found at", url)
         with open('urls.txt', 'a', encoding='utf-8') as file:
-            file.write("Total Sites Visited: " + str(numberVisited) + '\nURL Containing Search: ' + url + "\nSearch Term: " + word + "\n------------------------\n")
+            file.write("The word", word, "was found at", url, '\nTotal Sites Visited: ' + str(numberVisited) + '\nURL Containing Search: ' + url + "\nSearch Term: " + word + "\n------------------------\n")
     else:
         print("The word was not found at specified url")
+        with open('urls.txt', 'a', encoding='utf-8') as file:
+            file.write("The word was not found at specified url", "\nTotal Sites Visited: " + str(numberVisited) + '\nURL Containing Search: ' + url + "\nSearch Term: " + word + "\n------------------------\n")
